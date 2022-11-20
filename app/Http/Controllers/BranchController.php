@@ -2,32 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Branch;
 
-class UserController extends Controller
+class BranchController extends Controller
 {
-
     public function index()
     {
         return response()->json([
-            'data' => User::all(),
+            'data' => Branch::all(),
             'status' => 'success',
-            'message' => 'Get user success',
+            'message' => 'Get branch success',
         ]);
     }
 
 
     public function store(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
 
-        $data = new User([
-            'email' => $request->get('email'),
-            'password' => bcrypt($request->get('password'))
+        $data = new Branch([
+            'name' => $request->get('name'),
+            'address' => $request->get('address'),
         ]);
 
 
@@ -35,14 +30,16 @@ class UserController extends Controller
             return response()->json([
                 'data' => [],
                 'status' => 'fail',
-                'message' => 'Create user fail',
+                'message' => 'Add branch failed',
+
             ]);
         }
 
         return response()->json([
             'data' => [],
             'status' => 'success',
-            'message' => 'Create user success',
+            'message' => 'Add branch success',
+
         ]);
     }
 
@@ -50,47 +47,49 @@ class UserController extends Controller
     public function show($id)
     {
         return response()->json([
-            'data' => [User::find($id)],
+            'data' => [Branch::find($id)],
             'status' => 'success',
-            'message' => 'Get user success',
+            'message' => 'Get branch success',
+
         ]);
     }
 
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'password' => 'required'
-        ]);
 
-        $data = User::findOrFail($id);
+        $data = Branch::findOrFail($id);
 
-        $data->password = bcrypt($request->get('password'));
+        $data->name = $request->get('name');
+        $data->address = $request->get('address');
 
         if (!$data->save()) {
             return response()->json([
                 'data' => [],
                 'status' => 'fail',
-                'message' => 'Update user fail',
+                'message' => 'Update branch fail',
+
             ]);
         }
 
         return response()->json([
             'data' => [],
             'status' => 'success',
-            'message' => 'Update user success',
+            'message' => 'Update branch success',
+
         ]);
     }
 
     public function destroy($id)
     {
-        $data = User::findOrFail($id);
+        $data = Branch::findOrFail($id);
 
         if (!$data) {
             return response()->json([
                 'data' => [],
                 'status' => 'fail',
-                'message' => 'Delete user fail',
+                'message' => 'Delete branch fail',
+
             ]);
         }
 
@@ -99,7 +98,7 @@ class UserController extends Controller
         return response()->json([
             'data' => [],
             'status' => 'success',
-            'message' => 'Delete user success',
+            'message' => 'Delete branch success',
         ]);
     }
 }
