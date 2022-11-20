@@ -13,6 +13,7 @@ class UserController extends Controller
         return response()->json([
             'data' => User::all(),
             'status' => 'success',
+            'message' => 'Get user success',
         ]);
     }
 
@@ -34,12 +35,14 @@ class UserController extends Controller
             return response()->json([
                 'data' => [],
                 'status' => 'fail',
+                'message' => 'Create user fail',
             ]);
         }
 
         return response()->json([
             'data' => [],
             'status' => 'success',
+            'message' => 'Create user success',
         ]);
     }
 
@@ -49,6 +52,7 @@ class UserController extends Controller
         return response()->json([
             'data' => [User::find($id)],
             'status' => 'success',
+            'message' => 'Get user success',
         ]);
     }
 
@@ -67,12 +71,14 @@ class UserController extends Controller
             return response()->json([
                 'data' => [],
                 'status' => 'fail',
+                'message' => 'Update user fail',
             ]);
         }
 
         return response()->json([
             'data' => [],
             'status' => 'success',
+            'message' => 'Update user success',
         ]);
     }
 
@@ -84,6 +90,7 @@ class UserController extends Controller
             return response()->json([
                 'data' => [],
                 'status' => 'fail',
+                'message' => 'Delete user fail',
             ]);
         }
 
@@ -92,8 +99,7 @@ class UserController extends Controller
         return response()->json([
             'data' => [],
             'status' => 'success',
+            'message' => 'Delete user success',
         ]);
-
-
     }
 }
