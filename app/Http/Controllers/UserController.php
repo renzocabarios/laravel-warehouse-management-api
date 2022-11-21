@@ -22,11 +22,15 @@ class UserController extends Controller
     {
         $request->validate([
             'email' => 'required|email',
+            'firstName' => 'required',
+            'lastName' => 'required',
             'password' => 'required'
         ]);
 
         $data = new User([
             'email' => $request->get('email'),
+            'firstName' => $request->get('firstName'),
+            'lastName' => $request->get('lastName'),
             'password' => bcrypt($request->get('password'))
         ]);
 
@@ -59,13 +63,11 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'password' => 'required'
-        ]);
 
         $data = User::findOrFail($id);
 
-        $data->password = bcrypt($request->get('password'));
+        $data->firstName = $request->get('firstName');
+        $data->firstName = $request->get('lastName');
 
         if (!$data->save()) {
             return response()->json([
