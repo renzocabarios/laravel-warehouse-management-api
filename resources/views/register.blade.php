@@ -28,20 +28,18 @@
 
 <body>
 
-
-
     <div class="d-flex justify-content-center align-items-center mt-5">
         <form method="GET" action="{{ url('/') }}">
             <div class="form-group">
                 <label for="firstName">First Name</label>
                 <input type="text" class="form-control" id="firstName" aria-describedby="firstName"
-                    placeholder="Enter email" action="/home">
+                    placeholder="Enter First Name" action="/home">
 
             </div>
             <div class="form-group">
-                <label for="lastName">First Name</label>
+                <label for="lastName">Last Name </label>
                 <input type="text" class="form-control" id="lastName" aria-describedby="lastName"
-                    placeholder="Enter email" action="/home">
+                    placeholder="Enter Last Name" action="/home">
 
             </div>
             <div class="form-group">
