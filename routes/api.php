@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\BranchesController;
+use App\Http\Controllers\StockController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -23,4 +24,5 @@ use App\Http\Controllers\UserController;
 
 Route::apiResource('/item', ItemController::class);
 Route::apiResource('/branches', BranchesController::class);
+Route::apiResource('/stock', StockController::class);
 Route::apiResource('/user', UserController::class);
