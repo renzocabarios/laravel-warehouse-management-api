@@ -23,3 +23,8 @@ Route::get(
     '/login',
     [ViewController::class, 'login']
 )->name('login');
+
+Route::get(
+    '/register',
+    [ViewController::class, 'register']
+)->name('register');
