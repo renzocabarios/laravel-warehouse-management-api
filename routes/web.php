@@ -28,3 +28,8 @@ Route::get(
     '/register',
     [ViewController::class, 'register']
 )->name('register');
+
+Route::get(
+    '/item',
+    [ViewController::class, 'item']
+)->name('item');

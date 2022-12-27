@@ -15,4 +15,9 @@ class ViewController extends Controller
     {
         return view('register');
     }
+
+    public function item()
+    {
+        return view('item');
+    }
 }
