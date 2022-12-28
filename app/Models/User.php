@@ -16,6 +16,7 @@ class User extends Model
         "firstName",
         "lastName",
         'password',
+        'image',
     ];
 
 
