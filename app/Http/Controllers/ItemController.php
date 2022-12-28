@@ -10,24 +10,21 @@ class ItemController extends Controller
 {
     public function index()
     {
-
         return response()->json([
             'data' => Item::with([])->get(),
             'status' => 'success',
             'message' => 'Get item success',
-        ]);    
+        ]);
     }
 
     public function store(Request $request)
     {
-
         try {
             DB::beginTransaction();
 
             $data = Item::create([
                 'name' => $request->name,
                 'description' => $request->description,
-                'image' => $request->image,
             ]);
 
 
@@ -41,12 +38,12 @@ class ItemController extends Controller
                 'message' => 'Create item failed',
             ]);
         }
-        
+
         return response()->json([
             'data' => [$data],
             'status' => 'success',
             'message' => 'Create item success',
-        ]);    
+        ]);
     }
 
 
@@ -55,9 +52,9 @@ class ItemController extends Controller
 
         try {
             DB::beginTransaction();
-            $data = Item::find($id);    
+            $data = Item::find($id);
 
-            if($data == null){
+            if ($data == null) {
                 return response()->json([
                     'data' => [],
                     'status' => 'failed',
@@ -67,7 +64,6 @@ class ItemController extends Controller
 
             $data->name = $request->get('name');
             $data->description = $request->get('description');
-            $data->image = $request->get('image');
 
             $data->save();
             DB::commit();
@@ -98,14 +94,14 @@ class ItemController extends Controller
             'data' => [Item::with([])->find($id)],
             'status' => 'success',
             'message' => 'Get item success',
-        ]);    
+        ]);
     }
 
     public function destroy($id)
     {
         $data = Item::find($id);
 
-        if($data == null){
+        if ($data == null) {
             return response()->json([
                 'data' => [],
                 'status' => 'failed',
@@ -113,7 +109,7 @@ class ItemController extends Controller
             ]);
         }
         $data->delete();
-        
+
         return response()->json([
             'data' => [],
             'status' => 'success',
