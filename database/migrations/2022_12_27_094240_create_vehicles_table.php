@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('color');
             $table->string('model');
+            $table->string('image');
             $table->timestamps();
         });
     }
