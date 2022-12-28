@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\BranchOwner;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class BranchOwnerController extends Controller
@@ -12,7 +13,7 @@ class BranchOwnerController extends Controller
     {
 
         return response()->json([
-            'data' => BranchOwner::with([])->get(),
+            'data' => BranchOwner::with(["user"])->get(),
             'status' => 'success',
             'message' => 'Get branch owner success',
         ]);    
@@ -24,8 +25,17 @@ class BranchOwnerController extends Controller
         try {
             DB::beginTransaction();
 
+            $user = User::create([
+                'firstName' => $request->firstName,
+                'lastName' => $request->lastName,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'image' => $request->image,
+                'type' => "BRANCHOWNER",
+            ]);
+            
             $data = BranchOwner::create([
-                'userId' => $request->userId,
+                'userId' => $user->id,
             ]);
 
 
@@ -90,7 +100,7 @@ class BranchOwnerController extends Controller
     public function show($id)
     {
         return response()->json([
-            'data' => [BranchOwner::with([])->find($id)],
+            'data' => [BranchOwner::with(["user"])->find($id)],
             'status' => 'success',
             'message' => 'Get branch owner success',
         ]);    

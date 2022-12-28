@@ -27,4 +27,9 @@ class User extends Model
     {
         return $this->hasOne(Admin::class, "userId");
     }
+
+    public function branchOwner()
+    {
+        return $this->hasOne(BranchOwner::class, "userId");
+    }
 }
