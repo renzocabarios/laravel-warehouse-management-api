@@ -14,6 +14,7 @@ Add Item
             <th>ID</th>
             <th>Name</th>
             <th>Description</th>
+            <th>Action</th>
         </tr>
     </thead>
 </table>
@@ -53,6 +54,11 @@ Add Item
                 { data: 'id' },
                 { data: 'name' },
                 { data: 'description' },
+                {
+                    data: "id", render: function (data, type, row, meta) {
+                        return `<button id='${data}' class="btn btn-primary edit" data-bs-toggle="modal" data-bs-target="#formEditModal">Edit</button> <button id='${data}' class="btn btn-primary destroy">Delete</button> `
+                    }
+                },
             ],
         });
 
