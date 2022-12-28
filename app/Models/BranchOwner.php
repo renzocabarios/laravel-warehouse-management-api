@@ -14,4 +14,9 @@ class BranchOwner extends Model
     protected $fillable = [
         'userId',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, "userId");
+    }
 }
