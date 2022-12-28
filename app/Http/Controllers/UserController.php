@@ -13,7 +13,7 @@ class UserController extends Controller
     {
 
         return response()->json([
-            'data' => User::with([])->get(),
+            'data' => User::with(["admin"])->get(),
             'status' => 'success',
             'message' => 'Get user success',
         ]);
@@ -98,7 +98,7 @@ class UserController extends Controller
     public function show($id)
     {
         return response()->json([
-            'data' => [User::with([])->find($id)],
+            'data' => [User::with(["admin"])->find($id)],
             'status' => 'success',
             'message' => 'Get user success',
         ]);

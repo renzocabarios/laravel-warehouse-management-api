@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Admin;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -11,7 +12,7 @@ class AdminController extends Controller
     public function index()
     {
         return response()->json([
-            'data' => Admin::with([])->get(),
+            'data' => Admin::with(["user"])->get(),
             'status' => 'success',
             'message' => 'Get admin success',
         ]);
@@ -22,8 +23,17 @@ class AdminController extends Controller
         try {
             DB::beginTransaction();
 
+            $user = User::create([
+                'firstName' => $request->firstName,
+                'lastName' => $request->lastName,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'image' => $request->image,
+                'type' => "ADMIN",
+            ]);
+
             $data = Admin::create([
-                'userId' => $request->userId,
+                'userId' => $user->id,
             ]);
 
 
@@ -89,7 +99,7 @@ class AdminController extends Controller
     public function show($id)
     {
         return response()->json([
-            'data' => [Admin::with([])->find($id)],
+            'data' => [Admin::with(["user"])->find($id)],
             'status' => 'success',
             'message' => 'Get admin success',
         ]);
