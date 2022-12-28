@@ -16,4 +16,14 @@ class Stock extends Model
         'itemId',
         'quantity',
     ];
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class, "itemId");
+    }
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, "branchId");
+    }
 }

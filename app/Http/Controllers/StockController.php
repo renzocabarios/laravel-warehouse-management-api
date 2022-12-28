@@ -12,7 +12,7 @@ class StockController extends Controller
     {
 
         return response()->json([
-            'data' => Stock::with([])->get(),
+            'data' => Stock::with(["item", "branch"])->get(),
             'status' => 'success',
             'message' => 'Get stock success',
         ]);    
@@ -92,7 +92,7 @@ class StockController extends Controller
     public function show($id)
     {
         return response()->json([
-            'data' => [Stock::with([])->find($id)],
+            'data' => [Stock::with(["item", "branch"])->find($id)],
             'status' => 'success',
             'message' => 'Get stock success',
         ]);    

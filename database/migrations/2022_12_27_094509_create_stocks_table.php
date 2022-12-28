@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
-            $table->integer('branchId');
-            $table->integer('itemId');
+            $table->unsignedBigInteger('itemId');
+            $table->foreign('itemId')->references('id')->on('items')->cascadeOnDelete();
+            $table->unsignedBigInteger('branchId');
+            $table->foreign('branchId')->references('id')->on('branches')->cascadeOnDelete();
             $table->integer('quantity');
             $table->timestamps();
         });

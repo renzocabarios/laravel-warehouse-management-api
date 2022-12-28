@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Branches;
+use App\Models\Branch;
 use Illuminate\Support\Facades\DB;
 
-class BranchesController extends Controller
+class BranchController extends Controller
 {
     public function index()
     {
 
         return response()->json([
-            'data' => Branches::with([])->get(),
+            'data' => Branch::with([])->get(),
             'status' => 'success',
-            'message' => 'Get branches success',
+            'message' => 'Get branch success',
         ]);    
     }
 
@@ -24,7 +24,7 @@ class BranchesController extends Controller
         try {
             DB::beginTransaction();
 
-            $data = Branches::create([
+            $data = Branch::create([
                 'name' => $request->name,
                 'address' => $request->address,
                 'image' => $request->image,
@@ -38,14 +38,14 @@ class BranchesController extends Controller
             return response()->json([
                 'data' => [],
                 'status' => 'failed',
-                'message' => 'Create branches failed',
+                'message' => 'Create branch failed',
             ]);
         }
         
         return response()->json([
             'data' => [$data],
             'status' => 'success',
-            'message' => 'Create branches success',
+            'message' => 'Create branch success',
         ]);    
     }
 
@@ -55,13 +55,13 @@ class BranchesController extends Controller
 
         try {
             DB::beginTransaction();
-            $data = Branches::find($id);    
+            $data = Branch::find($id);    
 
             if($data == null){
                 return response()->json([
                     'data' => [],
                     'status' => 'failed',
-                    'message' => 'Branches not found',
+                    'message' => 'Branch not found',
                 ]);
             }
 
@@ -86,7 +86,7 @@ class BranchesController extends Controller
         return response()->json([
             'data' => [$data],
             'status' => 'success',
-            'message' => 'Update branches success',
+            'message' => 'Update branch success',
         ]);
 
 
@@ -95,21 +95,21 @@ class BranchesController extends Controller
     public function show($id)
     {
         return response()->json([
-            'data' => [Branches::with([])->find($id)],
+            'data' => [Branch::with([])->find($id)],
             'status' => 'success',
-            'message' => 'Get branches success',
+            'message' => 'Get branch success',
         ]);    
     }
 
     public function destroy($id)
     {
-        $data = Branches::find($id);
+        $data = Branch::find($id);
 
         if($data == null){
             return response()->json([
                 'data' => [],
                 'status' => 'failed',
-                'message' => 'Branches not found',
+                'message' => 'Branch not found',
             ]);
         }
         $data->delete();
@@ -117,7 +117,7 @@ class BranchesController extends Controller
         return response()->json([
             'data' => [],
             'status' => 'success',
-            'message' => 'Delete branches success',
+            'message' => 'Delete branch success',
         ]);
     }
 }
