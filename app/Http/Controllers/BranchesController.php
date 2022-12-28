@@ -27,6 +27,7 @@ class BranchesController extends Controller
             $data = Branches::create([
                 'name' => $request->name,
                 'address' => $request->address,
+                'image' => $request->image,
             ]);
 
 
@@ -66,6 +67,7 @@ class BranchesController extends Controller
 
             $data->name = $request->get('name');
             $data->address = $request->get('address');
+            $data->image = $request->get('image');
 
             $data->save();
             DB::commit();
