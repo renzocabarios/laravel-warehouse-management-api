@@ -19,8 +19,12 @@ class User extends Model
         'image',
     ];
 
-
     protected $hidden = [
         'password',
     ];
+
+    public function admin()
+    {
+        return $this->hasOne(Admin::class, "userId");
+    }
 }
