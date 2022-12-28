@@ -78,6 +78,23 @@ Add Item
                 }
             });
         });
+
+        $(document).on('click', '.destroy', function (event) {
+            event.preventDefault();
+            var id = $(this).attr('id');
+            $.ajax({
+                url: `/api/item/${id}`,
+                type: "DELETE",
+                dataType: "json",
+                success: function (data) {
+                    window.location.replace(window.location.href);
+                },
+                error: function (data) {
+                    var errors = data.responseJSON;
+                    console.log(errors);
+                }
+            })
+        });
     });
 </script>
 @endpush
