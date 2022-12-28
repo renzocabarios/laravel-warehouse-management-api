@@ -21,4 +21,9 @@ class Item extends Model
         'image' => 'test'
     ];
 
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class);
+    }
+
 }

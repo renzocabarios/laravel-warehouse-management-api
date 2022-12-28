@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Branches extends Model
+class Branch extends Model
 {
     use HasFactory;
 
@@ -16,4 +16,9 @@ class Branches extends Model
         "address",
         "image",
     ];
+
+    public function stocks()
+    {
+        return $this->hasMany(Stocks::class);
+    }
 }
