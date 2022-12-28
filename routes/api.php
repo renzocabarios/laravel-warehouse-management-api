@@ -7,6 +7,12 @@ use App\Http\Controllers\BranchesController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\ShipmentController;
+use App\Http\Controllers\ShipmentItemController;
+use App\Http\Controllers\BranchOwnerController;
+use App\Http\Controllers\AdminController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +34,7 @@ Route::apiResource('/branches', BranchesController::class);
 Route::apiResource('/stock', StockController::class);
 Route::apiResource('/user', UserController::class);
 Route::apiResource('/vehicle', VehicleController::class);
+Route::apiResource('/shipment', ShipmentController::class);
+Route::apiResource('/shipmentitem', ShipmentItemController::class);
+Route::apiResource('/branchowner', BranchOwnerController::class);
+Route::apiResource('/admin', AdminController::class);
