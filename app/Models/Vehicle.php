@@ -14,5 +14,6 @@ class Vehicle extends Model
     protected $fillable = [
         'color',
         'model',
+        'image',
     ];
 }
