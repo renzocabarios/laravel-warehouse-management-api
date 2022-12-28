@@ -27,6 +27,7 @@ class ItemController extends Controller
             $data = Item::create([
                 'name' => $request->name,
                 'description' => $request->description,
+                'image' => $request->image,
             ]);
 
 
@@ -37,7 +38,7 @@ class ItemController extends Controller
             return response()->json([
                 'data' => [],
                 'status' => 'failed',
-                'message' => 'Create item faileded',
+                'message' => 'Create item failed',
             ]);
         }
         
@@ -66,6 +67,7 @@ class ItemController extends Controller
 
             $data->name = $request->get('name');
             $data->description = $request->get('description');
+            $data->image = $request->get('image');
 
             $data->save();
             DB::commit();
