@@ -29,15 +29,18 @@ class UserController extends Controller
                 'lastName' => $request->lastName,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
+                'image' => $request->image,
             ]);
+
             DB::commit();
         } catch (\Exception $e) {
 
             DB::rollback();
+            
             return response()->json([
                 'data' => [],
                 'status' => 'failed',
-                'message' => 'Create user faileded',
+                'message' => 'Create user failed',
             ]);
         }
 
@@ -67,6 +70,7 @@ class UserController extends Controller
             $data->firstName = $request->get('firstName');
             $data->lastName = $request->get('lastName');
             $data->email = $request->get('email');
+            $data->image = $request->get('image');
 
             $data->save();
             DB::commit();
