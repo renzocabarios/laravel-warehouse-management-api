@@ -26,7 +26,7 @@ Add Item
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form class="form">
                     <div class="mb-3">
                         <label for="name" class="form-label">Item Name</label>
                         <input type="text" class="form-control" id="name" name="name">
@@ -54,6 +54,23 @@ Add Item
                 { data: 'name' },
                 { data: 'description' },
             ],
+        });
+
+
+        $('.form').on('submit', function (event) {
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: `/api/item`,
+                data: $(this).serialize(),
+                success: function (data) {
+                    window.location.replace(window.location.href);
+                },
+                error: function (data) {
+                    var errors = data.responseJSON;
+                    console.log(errors);
+                }
+            });
         });
     });
 </script>
