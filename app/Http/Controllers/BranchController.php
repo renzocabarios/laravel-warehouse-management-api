@@ -12,7 +12,7 @@ class BranchController extends Controller
     {
 
         return response()->json([
-            'data' => Branch::with([])->get(),
+            'data' => Branch::with(["branchOwner.branch", "stocks"])->get(),
             'status' => 'success',
             'message' => 'Get branch success',
         ]);    
@@ -28,6 +28,7 @@ class BranchController extends Controller
                 'name' => $request->name,
                 'address' => $request->address,
                 'image' => $request->image,
+                'branchOwnerId' => $request->branchOwnerId,
             ]);
 
 
@@ -95,7 +96,7 @@ class BranchController extends Controller
     public function show($id)
     {
         return response()->json([
-            'data' => [Branch::with([])->find($id)],
+            'data' => [Branch::with(["branchOwner"])->find($id)],
             'status' => 'success',
             'message' => 'Get branch success',
         ]);    
