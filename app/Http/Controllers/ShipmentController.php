@@ -12,7 +12,7 @@ class ShipmentController extends Controller
     public function index()
     {
         return response()->json([
-            'data' => Shipment::with(["vehicle", "shipmentItems"])->get(),
+            'data' => Shipment::with(["vehicle", "shipmentItems", "to", "from"])->get(),
             'status' => 'success',
             'message' => 'Get shipment success',
         ]);
