@@ -23,7 +23,7 @@ class ShipmentController extends Controller
             DB::beginTransaction();
 
             $data = Shipment::create([
-                'isApproved' => $request->isApproved,
+                'isApproved' => false,
                 'vehicleId' => $request->vehicleId,
             ]);
 
