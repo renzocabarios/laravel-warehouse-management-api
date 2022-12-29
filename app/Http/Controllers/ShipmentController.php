@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ShipmentItem;
 use Illuminate\Http\Request;
 use App\Models\Shipment;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +28,14 @@ class ShipmentController extends Controller
                 'vehicleId' => $request->vehicleId,
             ]);
 
+            foreach ($request->items as $item) {
+                ShipmentItem::create([
+                    'itemId' => $item["itemId"],
+                    'quantity' => $item["quantity"],
+                    'shipmentId' => $data->id,
+                ]);
+            }
+
 
             DB::commit();
         } catch (\Exception $e) {
@@ -35,7 +44,7 @@ class ShipmentController extends Controller
             return response()->json([
                 'data' => [],
                 'status' => 'failed',
-                'message' => 'Create shipment failed',
+                'message' => $e,
             ]);
         }
 
