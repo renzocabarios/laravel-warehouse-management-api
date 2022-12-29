@@ -24,4 +24,9 @@ class Shipment extends Model
     {
         return $this->belongsTo(Vehicle::class, "vehicleId");
     }
+
+    public function shipmentItems()
+    {
+        return $this->hasMany(ShipmentItem::class, "shipmentId");
+    }
 }
