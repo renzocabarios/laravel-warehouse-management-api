@@ -27,4 +27,14 @@ class Branch extends Model
     {
         return $this->belongsTo(BranchOwner::class, "branchOwnerId");
     }
+
+    public function tos()
+    {
+        return $this->hasMany(Shipment::class, "tos");
+    }
+
+    public function froms()
+    {
+        return $this->hasMany(Shipment::class, "froms");
+    }
 }
