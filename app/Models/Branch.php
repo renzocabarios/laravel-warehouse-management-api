@@ -15,10 +15,16 @@ class Branch extends Model
         'name',
         "address",
         "image",
+        "branchOwnerId",
     ];
 
     public function stocks()
     {
-        return $this->hasMany(Stocks::class);
+        return $this->hasMany(Stock::class, "id");
+    }
+
+    public function branchOwner()
+    {
+        return $this->belongsTo(BranchOwner::class, "branchOwnerId");
     }
 }
