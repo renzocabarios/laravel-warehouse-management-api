@@ -48,3 +48,15 @@ Route::get(
     '/branch-owner',
     [ViewController::class, 'branchOwner']
 )->name('branchOwner');
+
+Route::get(
+    '/branch',
+    [ViewController::class, 'branch']
+)->name('branch');
+
+
+
+Route::get(
+    '/branch/create',
+    [ViewController::class, 'branchCreate']
+)->name('branchCreate');

@@ -35,4 +35,13 @@ class ViewController extends Controller
     {
         return view('branchOwner');
     }
+    public function branch()
+    {
+        return view('branch');
+    }
+    public function branchCreate()
+    {
+        return view('branchCreate');
+    }
+
 }

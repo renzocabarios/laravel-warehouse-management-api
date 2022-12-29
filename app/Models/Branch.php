@@ -17,7 +17,9 @@ class Branch extends Model
         "image",
         "branchOwnerId",
     ];
-
+    protected $attributes = [
+        'image' => 'test',
+    ];
     public function stocks()
     {
         return $this->hasMany(Stock::class, "id");
