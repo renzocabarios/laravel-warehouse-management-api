@@ -20,4 +20,10 @@ class ViewController extends Controller
     {
         return view('item');
     }
+
+    public function user()
+    {
+        return view('user');
+    }
+    
 }

@@ -33,3 +33,10 @@ Route::get(
     '/item',
     [ViewController::class, 'item']
 )->name('item');
+
+Route::get(
+    '/user',
+    [ViewController::class, 'user']
+)->name('user');
+
+
