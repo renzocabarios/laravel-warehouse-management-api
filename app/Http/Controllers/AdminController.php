@@ -28,7 +28,6 @@ class AdminController extends Controller
                 'lastName' => $request->lastName,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
-                'image' => $request->image,
                 'type' => "ADMIN",
             ]);
 
