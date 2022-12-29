@@ -19,4 +19,9 @@ class BranchOwner extends Model
     {
         return $this->belongsTo(User::class, "userId");
     }
+
+    public function branch()
+    {
+        return $this->hasMany(Branch::class, "branchOwnerId");
+    }
 }
