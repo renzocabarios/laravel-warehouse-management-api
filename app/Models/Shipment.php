@@ -14,6 +14,8 @@ class Shipment extends Model
     protected $fillable = [
         'isApproved',
         'vehicleId',
+        'to',
+        'from',
     ];
 
     protected $attributes = [
@@ -28,5 +30,15 @@ class Shipment extends Model
     public function shipmentItems()
     {
         return $this->hasMany(ShipmentItem::class, "shipmentId");
+    }
+
+    public function to()
+    {
+        return $this->belongsTo(Branch::class, "to");
+    }
+
+    public function from()
+    {
+        return $this->belongsTo(Branch::class, "from");
     }
 }
