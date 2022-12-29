@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -16,7 +15,8 @@ return new class extends Migration
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
             $table->boolean('isApproved');
-            $table->integer('vehicleId');
+            $table->unsignedBigInteger('vehicleId');
+            $table->foreign('vehicleId')->references('id')->on('vehicles')->cascadeOnDelete();
             $table->timestamps();
         });
     }
