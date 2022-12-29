@@ -15,4 +15,13 @@ class Shipment extends Model
         'isApproved',
         'vehicleId',
     ];
+
+    protected $attributes = [
+        'isApproved' => false
+    ];
+
+    public function vehicle()
+    {
+        return $this->belongsTo(Vehicle::class, "vehicleId");
+    }
 }
