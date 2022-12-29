@@ -100,7 +100,7 @@ class ShipmentController extends Controller
     public function show($id)
     {
         return response()->json([
-            'data' => [Shipment::with(["vehicle"])->find($id)],
+            'data' => [Shipment::with(["vehicle", "shipmentItems"])->find($id)],
             'status' => 'success',
             'message' => 'Get shipment success',
         ]);
