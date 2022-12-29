@@ -26,6 +26,8 @@ class ShipmentController extends Controller
             $data = Shipment::create([
                 'isApproved' => false,
                 'vehicleId' => $request->vehicleId,
+                'to' => $request->to,
+                'from' => $request->from,
             ]);
 
             foreach ($request->items as $item) {
@@ -35,7 +37,6 @@ class ShipmentController extends Controller
                     'shipmentId' => $data->id,
                 ]);
             }
-
 
             DB::commit();
         } catch (\Exception $e) {
