@@ -13,10 +13,10 @@ class UserController extends Controller
     {
 
         return response()->json([
-            'data' => User::with(["admin","branchOwner"])->get(),
+            'data' => User::with(["admin", "branchOwner"])->get(),
             'status' => 'success',
             'message' => 'Get user success',
-        ]);
+        ]); 
     }
 
     public function store(Request $request)
@@ -29,18 +29,17 @@ class UserController extends Controller
                 'lastName' => $request->lastName,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
-                'image' => $request->image,
             ]);
 
             DB::commit();
         } catch (\Exception $e) {
 
             DB::rollback();
-            
+
             return response()->json([
                 'data' => [],
                 'status' => 'failed',
-                'message' => 'Create user failed',
+                'message' => $e,
             ]);
         }
 
@@ -70,7 +69,6 @@ class UserController extends Controller
             $data->firstName = $request->get('firstName');
             $data->lastName = $request->get('lastName');
             $data->email = $request->get('email');
-            $data->image = $request->get('image');
 
             $data->save();
             DB::commit();
@@ -98,7 +96,7 @@ class UserController extends Controller
     public function show($id)
     {
         return response()->json([
-            'data' => [User::with(["admin","branchOwner"])->find($id)],
+            'data' => [User::with(["admin", "branchOwner"])->find($id)],
             'status' => 'success',
             'message' => 'Get user success',
         ]);

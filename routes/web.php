@@ -39,9 +39,12 @@ Route::get(
     [ViewController::class, 'user']
 )->name('user');
 
-
-
 Route::get(
     '/admin',
     [ViewController::class, 'admin']
 )->name('admin');
+
+Route::get(
+    '/branch-owner',
+    [ViewController::class, 'branchOwner']
+)->name('branchOwner');

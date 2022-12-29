@@ -16,7 +16,7 @@ class BranchOwnerController extends Controller
             'data' => BranchOwner::with(["user"])->get(),
             'status' => 'success',
             'message' => 'Get branch owner success',
-        ]);    
+        ]);
     }
 
     public function store(Request $request)
@@ -30,10 +30,9 @@ class BranchOwnerController extends Controller
                 'lastName' => $request->lastName,
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
-                'image' => $request->image,
                 'type' => "BRANCHOWNER",
             ]);
-            
+
             $data = BranchOwner::create([
                 'userId' => $user->id,
             ]);
@@ -46,15 +45,15 @@ class BranchOwnerController extends Controller
             return response()->json([
                 'data' => [],
                 'status' => 'failed',
-                'message' => 'Create branch owner failed',
+                'message' => $e,
             ]);
         }
-        
+
         return response()->json([
             'data' => [$data],
             'status' => 'success',
             'message' => 'Create branch owner success',
-        ]);    
+        ]);
     }
 
 
@@ -63,9 +62,9 @@ class BranchOwnerController extends Controller
 
         try {
             DB::beginTransaction();
-            $data = BranchOwner::find($id);    
+            $data = BranchOwner::find($id);
 
-            if($data == null){
+            if ($data == null) {
                 return response()->json([
                     'data' => [],
                     'status' => 'failed',
@@ -103,14 +102,14 @@ class BranchOwnerController extends Controller
             'data' => [BranchOwner::with(["user"])->find($id)],
             'status' => 'success',
             'message' => 'Get branch owner success',
-        ]);    
+        ]);
     }
 
     public function destroy($id)
     {
         $data = BranchOwner::find($id);
 
-        if($data == null){
+        if ($data == null) {
             return response()->json([
                 'data' => [],
                 'status' => 'failed',
@@ -118,7 +117,7 @@ class BranchOwnerController extends Controller
             ]);
         }
         $data->delete();
-        
+
         return response()->json([
             'data' => [],
             'status' => 'success',

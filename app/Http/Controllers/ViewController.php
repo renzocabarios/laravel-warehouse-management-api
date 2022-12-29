@@ -31,4 +31,8 @@ class ViewController extends Controller
         return view('admin');
     }
 
+    public function branchOwner()
+    {
+        return view('branchOwner');
+    }
 }
