@@ -17,6 +17,13 @@ class User extends Model
         "lastName",
         'password',
         'image',
+        'type',
+
+    ];
+
+    protected $attributes = [
+        'image' => 'test',
+        'type' => 'Admin'
     ];
 
     protected $hidden = [
