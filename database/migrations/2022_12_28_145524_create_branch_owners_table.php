@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('branch_owners', function (Blueprint $table) {
             $table->id();
-            $table->integer('userId');
+            $table->unsignedBigInteger('userId');
+            $table->foreign('userId')->references('id')->on('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }
