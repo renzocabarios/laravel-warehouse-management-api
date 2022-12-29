@@ -16,4 +16,9 @@ class Vehicle extends Model
         'model',
         'image',
     ];
+
+    public function shipments()
+    {
+        return $this->hasMany(Shipment::class, "shipmentId");
+    }
 }
