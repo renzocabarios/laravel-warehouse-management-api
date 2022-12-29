@@ -17,6 +17,12 @@ return new class extends Migration {
             $table->boolean('isApproved');
             $table->unsignedBigInteger('vehicleId');
             $table->foreign('vehicleId')->references('id')->on('vehicles')->cascadeOnDelete();
+
+            $table->unsignedBigInteger('to');
+            $table->foreign('to')->references('id')->on('branches')->cascadeOnDelete();
+
+            $table->unsignedBigInteger('from');
+            $table->foreign('from')->references('id')->on('branches')->cascadeOnDelete();
             $table->timestamps();
         });
     }
