@@ -40,3 +40,8 @@ Route::get(
 )->name('user');
 
 
+
+Route::get(
+    '/admin',
+    [ViewController::class, 'admin']
+)->name('admin');

@@ -25,5 +25,10 @@ class ViewController extends Controller
     {
         return view('user');
     }
-    
+
+    public function admin()
+    {
+        return view('admin');
+    }
+
 }
