@@ -16,6 +16,10 @@ class Vehicle extends Model
         'model',
         'image',
     ];
+    protected $attributes = [
+        'image' => 'test',
+    ];
+
 
     public function shipments()
     {
