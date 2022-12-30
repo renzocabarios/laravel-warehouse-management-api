@@ -4,7 +4,7 @@
     <div class="h-full w-full p-2">
 
         <button type="button" class="btn btn-primary my-2 create">
-            Add User
+            Add Branch
         </button>
 
         <table id="myTable" class="drop-shadow-2xl">
@@ -76,7 +76,7 @@
                     {
                         data: "id",
                         render: function(data, type, row, meta) {
-                            return `<button id='${data}' class="btn btn-primary edit" data-bs-toggle="modal" data-bs-target="#formEditModal">Edit</button> <button id='${data}' class="btn btn-primary destroy">Delete</button> `
+                            return `<button id='${data}' class="btn btn-primary edit">Edit</button> <button id='${data}' class="btn btn-primary destroy">Delete</button> `
                         }
                     },
                 ],
@@ -125,20 +125,9 @@
             });
 
             $(document).on('click', '.edit', function(event) {
-                const id = $(this).attr('id');
-                $.ajax({
-                    url: `/api/item/${id}`,
-                    dataType: "json",
-                    success: function(data) {
-                        $('#editId').val(data.data[0].id);
-                        $('#editName').val(data.data[0].name);
-                        $('#editDescription').val(data.data[0].description);
-                    },
-                    error: function(data) {
-                        var errors = data.responseJSON;
-                        console.log(errors);
-                    }
-                })
+                var id = $(this).attr('id');
+                window.location.replace(`${window.location.origin}/branch/edit/${id}`);
+
             });
 
 

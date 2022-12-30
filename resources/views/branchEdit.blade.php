@@ -24,10 +24,12 @@
                     </div>
                     <button type="button" class="btn btn-primary my-2" data-bs-toggle="modal"
                         data-bs-target="#formModal">Choose Branch Owner</button>
-
-
                 </div>
                 <div class="w-25">
+                    <div class="mb-3">
+                        <label for="id" class="form-label">Branch ID</label>
+                        <input type="text" class="form-control" id="id" name="id">
+                    </div>
                     <div class="mb-3">
                         <label for="name" class="form-label">Branch Name</label>
                         <input type="text" class="form-control" id="name" name="name">
@@ -70,6 +72,10 @@
 @push('scripts')
     <script>
         $(document).ready(() => {
+
+            var url = window.location.pathname;
+            var id = url.substring(url.lastIndexOf('/') + 1);
+
             $('#myTable').DataTable({
                 ajax: '/api/branch-owner',
                 columns: [{
@@ -90,14 +96,32 @@
                     {
                         data: "id",
                         render: function(data, type, row, meta) {
-                            return `<button id='${data}' class="btn btn-primary select" data-bs-dismiss="modal">Select</button> `
+                            return `<button ownerId='${data}' class="btn btn-primary select" data-bs-dismiss="modal">Select</button> `
                         }
                     },
                 ],
             });
 
+            $.ajax({
+                url: `/api/branch/${id}`,
+                dataType: "json",
+                success: function(data) {
+                    $('#id').val(id);
+                    $('#ownerId').val(data.data[0].branch_owner.id);
+                    $('#ownerEmail').val(data.data[0].branch_owner.user.email);
+                    $('#ownerFirstName').val(data.data[0].branch_owner.user.firstName);
+                    $('#ownerLastName').val(data.data[0].branch_owner.user.lastName);
+                    $('#name').val(data.data[0].name);
+                    $('#address').val(data.data[0].address);
+                },
+                error: function(data) {
+                    var errors = data.responseJSON;
+                    console.log(errors);
+                }
+            })
+
             $(document).on('click', '.select', function(event) {
-                const id = $(this).attr('id');
+                const id = $(this).attr('ownerId');
                 $.ajax({
                     url: `/api/branch-owner/${id}`,
                     dataType: "json",
@@ -115,13 +139,10 @@
             });
 
             $(document).on('click', '.submit', function(event) {
-                console.log($('#ownerId').val(), $('#name').val(), $('#address').val(),
-                    $('#ownerLastName').val());
-
                 $.ajax({
-                    url: `/api/branch`,
+                    url: `/api/branch/${id}`,
                     dataType: "json",
-                    method: "POST",
+                    method: "PATCH",
                     data: {
                         address: $('#address').val(),
                         branchOwnerId: $('#ownerId').val(),

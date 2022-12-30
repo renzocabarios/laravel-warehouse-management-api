@@ -62,6 +62,11 @@ Route::get(
 )->name('branchCreate');
 
 Route::get(
+    '/branch/edit/{id}',
+    [ViewController::class, 'branchEdit']
+)->name('branchEdit');
+
+Route::get(
     '/vehicle',
     [ViewController::class, 'vehicle']
 )->name('vehicle');

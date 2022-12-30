@@ -67,7 +67,7 @@ class BranchController extends Controller
 
             $data->name = $request->get('name');
             $data->address = $request->get('address');
-            $data->image = $request->get('image');
+            $data->branchOwnerId = $request->get('branchOwnerId');
 
             $data->save();
             DB::commit();
@@ -95,7 +95,7 @@ class BranchController extends Controller
     public function show($id)
     {
         return response()->json([
-            'data' => [Branch::with(["branchOwner"])->find($id)],
+            'data' => [Branch::with(["branchOwner.branch", "stocks", "branchOwner.user"])->find($id)],
             'status' => 'success',
             'message' => 'Get branch success',
         ]);
