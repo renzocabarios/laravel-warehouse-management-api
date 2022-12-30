@@ -60,3 +60,8 @@ Route::get(
     '/branch/create',
     [ViewController::class, 'branchCreate']
 )->name('branchCreate');
+
+Route::get(
+    '/vehicle',
+    [ViewController::class, 'vehicle']
+)->name('vehicle');
