@@ -27,7 +27,6 @@ class VehicleController extends Controller
             $data = Vehicle::create([
                 'color' => $request->color,
                 'model' => $request->model,
-                'image' => $request->image,
             ]);
 
 
@@ -66,8 +65,7 @@ class VehicleController extends Controller
             }
 
             $data->color = $request->get('color');
-            $data->model = $request->get('model');
-            $data->image = $request->get('image');
+            $data->model = $request->get('model'); 
 
             $data->save();
             DB::commit();

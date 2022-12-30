@@ -44,4 +44,9 @@ class ViewController extends Controller
         return view('branchCreate');
     }
 
+    public function vehicle()
+    {
+        return view('vehicle');
+    }
+
 }
