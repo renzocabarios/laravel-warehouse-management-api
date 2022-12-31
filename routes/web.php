@@ -54,8 +54,6 @@ Route::get(
     [ViewController::class, 'branch']
 )->name('branch');
 
-
-
 Route::get(
     '/branch/create',
     [ViewController::class, 'branchCreate']
@@ -70,3 +68,18 @@ Route::get(
     '/vehicle',
     [ViewController::class, 'vehicle']
 )->name('vehicle');
+
+Route::get(
+    '/shipment',
+    [ViewController::class, 'shipment']
+)->name('shipment');
+
+Route::get(
+    '/shipment/create',
+    [ViewController::class, 'shipmentCreate']
+)->name('shipmentCreate');
+
+Route::get(
+    '/shipment/create-item',
+    [ViewController::class, 'shipmentCreateItem']
+)->name('shipmentCreateItem');

@@ -115,9 +115,6 @@
             });
 
             $(document).on('click', '.submit', function(event) {
-                console.log($('#ownerId').val(), $('#name').val(), $('#address').val(),
-                    $('#ownerLastName').val());
-
                 $.ajax({
                     url: `/api/branch`,
                     dataType: "json",

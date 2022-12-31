@@ -43,6 +43,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/vehicle">Vehicles</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/shipment">Shipment</a>
+                    </li>
                 </ul>
                 <form class="d-flex" role="search">
                     <a class="btn btn-outline-success">Register</a>
