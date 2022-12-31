@@ -35,7 +35,7 @@ Route::apiResource('/stock', StockController::class);
 Route::apiResource('/user', UserController::class);
 Route::apiResource('/vehicle', VehicleController::class);
 Route::apiResource('/shipment', ShipmentController::class);
-Route::apiResource('/shipmentitem', ShipmentItemController::class);
+Route::apiResource('/shipment-item', ShipmentItemController::class);
 Route::apiResource('/branch-owner', BranchOwnerController::class);
 Route::apiResource('/admin', AdminController::class);
 Route::patch('/shipment/{id}/approve', [ShipmentController::class,'approve']);

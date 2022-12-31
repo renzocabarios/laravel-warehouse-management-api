@@ -17,8 +17,11 @@ class ShipmentItem extends Model
         'shipmentId',
     ];
 
-
-
+    public function item()
+    {
+        return $this->belongsTo(Item::class, "itemId");
+    }
+    
     public function shipment()
     {
         return $this->belongsTo(Shipment::class, "shipmentId");

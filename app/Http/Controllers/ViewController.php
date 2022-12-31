@@ -73,5 +73,15 @@ class ViewController extends Controller
     {
         return view('shipmentCreateItem');
     }
+
+    public function shipmentItem()
+    {
+        return view('shipmentItem');
+    }
+
+    public function shipmentItemCreate()
+    {
+        return view('shipmentItemCreate');
+    }
     
 }

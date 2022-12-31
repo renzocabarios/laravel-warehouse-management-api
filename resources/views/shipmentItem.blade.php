@@ -4,22 +4,45 @@
     <div class="h-full w-full p-2">
 
         <button type="button" class="btn btn-primary my-2 create">
-            Add Shipment
+            Add Shipment Item
         </button>
 
-        <table id="myTable" class="drop-shadow-2xl">
+        <table id="myTable" class="drop-shadow-2xl ">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>To</th>
                     <th>From</th>
-                    <th>Item No.</th>
-                    <th>Vehicle</th>
-                    <th>Approved</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
                     <th>Action</th>
                 </tr>
             </thead>
         </table>
+
+        <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formModalLabel">Add Shipment Item</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Item Name</label>
+                                <input type="text" class="form-control" id="name" name="name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Item Description</label>
+                                <input type="text" class="form-control" id="description" name="description">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="modal fade" id="formEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -55,40 +78,26 @@
     <script>
         $(document).ready(() => {
             $('#myTable').DataTable({
-                ajax: 'api/shipment',
+                ajax: 'api/shipment-item',
                 columns: [{
                         data: 'id'
                     },
                     {
-                        data: 'to.name'
+                        data: 'shipment.to.name'
                     },
                     {
-                        data: 'from.name'
-                    },
-
-                    {
-                        data: "shipment_items",
-                        render: function(data, type, row, meta) {
-                            return `${data.length}`
-                        }
+                        data: 'shipment.from.name'
                     },
                     {
-                        data: "vehicle",
-                        render: function(data, type, row, meta) {
-                            return `${data.color} | ${data.model}`
-                        }
+                        data: 'item.name'
                     },
                     {
-                        data: "isApproved",
-                        render: function(data, type, row, meta) {
-                            return data ? "APPROVED" : "NOT APPROVED"
-                        }
+                        data: 'quantity'
                     },
-
                     {
                         data: "id",
                         render: function(data, type, row, meta) {
-                            return `<button id='${data}' class="btn btn-primary edit">Edit</button> <button id='${data}' class="btn btn-primary destroy">Delete</button> <button id='${data}' class="btn btn-primary approve">Approve</button>`
+                            return `<button id='${data}' class="btn btn-primary edit" data-bs-toggle="modal" data-bs-target="#formEditModal">Edit</button> <button id='${data}' class="btn btn-primary destroy">Delete</button> `
                         }
                     },
                 ],
@@ -99,7 +108,7 @@
                 $.ajax({
                     type: "POST",
                     dataType: 'json',
-                    url: `/api/user`,
+                    url: `/api/item`,
                     data: $(this).serialize(),
                     success: function(data) {
                         window.location.replace(window.location.href);
@@ -109,6 +118,10 @@
                         console.log(errors);
                     }
                 });
+            });
+
+            $(document).on('click', '.create', function(event) {
+                window.location.replace(`${window.location.origin}/shipment-item/create`);
             });
 
             $('.editForm').on('submit', function(event) {
@@ -128,25 +141,16 @@
                 });
             });
 
-            $(document).on('click', '.create', function(event) {
-                window.location.replace(`${window.location.origin}/shipment/create`);
-            });
-
             $(document).on('click', '.edit', function(event) {
-                var id = $(this).attr('id');
-                window.location.replace(`${window.location.origin}/branch/edit/${id}`);
+                const id = $(this).attr('id');
 
-            });
-
-            $(document).on('click', '.approve', function(event) {
-                event.preventDefault();
-                var id = $(this).attr('id');
                 $.ajax({
-                    url: `/api/shipment/${id}/approve`,
-                    type: "PATCH",
+                    url: `/api/item/${id}`,
                     dataType: "json",
                     success: function(data) {
-                        window.location.replace(window.location.href);
+                        $('#editId').val();
+                        $('#editName').val();
+                        $('#editDescription').val();
                     },
                     error: function(data) {
                         var errors = data.responseJSON;
@@ -159,7 +163,7 @@
                 event.preventDefault();
                 var id = $(this).attr('id');
                 $.ajax({
-                    url: `/api/shipment/${id}`,
+                    url: `/api/shipment-item/${id}`,
                     type: "DELETE",
                     dataType: "json",
                     success: function(data) {

@@ -26,4 +26,8 @@ class Item extends Model
         return $this->hasMany(Stock::class);
     }
 
+    public function shipmentItem()
+    {
+        return $this->belongsTo(ShipmentItem::class, "itemId");
+    }
 }

@@ -11,7 +11,7 @@ class ShipmentItemController extends Controller
     public function index()
     {
         return response()->json([
-            'data' => ShipmentItem::with([])->get(),
+            'data' => ShipmentItem::with(["shipment.to", "shipment.from","item"])->get(),
             'status' => 'success',
             'message' => 'Get shipment item success',
         ]);
@@ -94,7 +94,7 @@ class ShipmentItemController extends Controller
     public function show($id)
     {
         return response()->json([
-            'data' => [ShipmentItem::with([])->find($id)],
+            'data' => [ShipmentItem::with(["shipment.to", "shipment.from","item"])->find($id)],
             'status' => 'success',
             'message' => 'Get shipment item success',
         ]);

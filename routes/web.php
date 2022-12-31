@@ -88,3 +88,13 @@ Route::get(
     '/stock',
     [ViewController::class, 'stock']
 )->name('stock');
+
+Route::get(
+    '/shipment-item',
+    [ViewController::class, 'shipmentItem']
+)->name('shipmentItem');
+
+Route::get(
+    '/shipment-item/create',
+    [ViewController::class, 'shipmentItemCreate']
+)->name('shipmentItemCreate');
