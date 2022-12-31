@@ -44,6 +44,9 @@
                         <a class="nav-link" href="/vehicle">Vehicles</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/stock">Stocks</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/shipment">Shipment</a>
                     </li>
                 </ul>
