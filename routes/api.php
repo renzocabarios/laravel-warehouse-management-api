@@ -38,3 +38,4 @@ Route::apiResource('/shipment', ShipmentController::class);
 Route::apiResource('/shipmentitem', ShipmentItemController::class);
 Route::apiResource('/branch-owner', BranchOwnerController::class);
 Route::apiResource('/admin', AdminController::class);
+Route::patch('/shipment/{id}/approve', [ShipmentController::class,'approve']);

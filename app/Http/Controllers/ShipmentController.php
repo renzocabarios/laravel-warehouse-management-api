@@ -126,4 +126,43 @@ class ShipmentController extends Controller
             'message' => 'Delete shipment success',
         ]);
     }
+
+    public function approve($id)
+    {
+        try {
+            DB::beginTransaction();
+            $data = Shipment::find($id);
+
+            if ($data == null) {
+                return response()->json([
+                    'data' => [],
+                    'status' => 'failed',
+                    'message' => 'Shipment not found',
+                ]);
+            }
+
+            $data->isApproved = true;
+
+            $data->save();
+            DB::commit();
+
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            return response()->json([
+                'data' => [],
+                'status' => 'failed',
+                'message' => $e,
+            ]);
+        }
+
+        return response()->json([
+            'data' => [$data],
+            'status' => 'success',
+            'message' => 'Update shipment success',
+        ]);
+
+
+    }
 }

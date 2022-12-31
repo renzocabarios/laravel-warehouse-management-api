@@ -15,6 +15,7 @@
                     <th>From</th>
                     <th>Item No.</th>
                     <th>Vehicle</th>
+                    <th>Approved</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -78,14 +79,20 @@
                         }
                     },
                     {
+                        data: "isApproved",
+                        render: function(data, type, row, meta) {
+                            return data ? "APPROVED" : "NOT APPROVED"
+                        }
+                    },
+
+                    {
                         data: "id",
                         render: function(data, type, row, meta) {
-                            return `<button id='${data}' class="btn btn-primary edit">Edit</button> <button id='${data}' class="btn btn-primary destroy">Delete</button> `
+                            return `<button id='${data}' class="btn btn-primary edit">Edit</button> <button id='${data}' class="btn btn-primary destroy">Delete</button> <button id='${data}' class="btn btn-primary approve">Approve</button>`
                         }
                     },
                 ],
             });
-
 
             $('.form').on('submit', function(event) {
                 event.preventDefault();
@@ -132,11 +139,28 @@
 
             });
 
+            $(document).on('click', '.approve', function(event) {
+                event.preventDefault();
+                var id = $(this).attr('id');
+                $.ajax({
+                    url: `/api/shipment/${id}/approve`,
+                    type: "PATCH",
+                    dataType: "json",
+                    success: function(data) {
+                        window.location.replace(window.location.href);
+                    },
+                    error: function(data) {
+                        var errors = data.responseJSON;
+                        console.log(errors);
+                    }
+                })
+            });
+
             $(document).on('click', '.destroy', function(event) {
                 event.preventDefault();
                 var id = $(this).attr('id');
                 $.ajax({
-                    url: `/api/branch/${id}`,
+                    url: `/api/shipment/${id}`,
                     type: "DELETE",
                     dataType: "json",
                     success: function(data) {

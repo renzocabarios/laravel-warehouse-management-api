@@ -10,7 +10,6 @@ class VehicleController extends Controller
 {
     public function index()
     {
-
         return response()->json([
             'data' => Vehicle::with([])->get(),
             'status' => 'success',
@@ -20,7 +19,6 @@ class VehicleController extends Controller
 
     public function store(Request $request)
     {
-
         try {
             DB::beginTransaction();
 
@@ -51,7 +49,6 @@ class VehicleController extends Controller
 
     public function update(Request $request, $id)
     {
-
         try {
             DB::beginTransaction();
             $data = Vehicle::find($id);    
