@@ -54,6 +54,11 @@ class ViewController extends Controller
         return view('vehicle');
     }
 
+    public function stock()
+    {
+        return view('stock');
+    }
+
     public function shipment()
     {
         return view('shipment');
