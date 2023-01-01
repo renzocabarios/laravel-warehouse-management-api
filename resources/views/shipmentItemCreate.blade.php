@@ -26,7 +26,7 @@
                             <input type="text" class="form-control" id="vehicle" name="vehicle">
                         </div>
                         <button type="button" class="btn btn-primary my-2" data-bs-toggle="modal"
-                            data-bs-target="#formToModal">Choose Shipment</button>
+                            data-bs-target="#formModal">Choose Shipment</button>
                     </div>
                 </div>
 
@@ -40,16 +40,16 @@
                         <p class="card-text">
                         <div class="mb-3">
                             <label for="itemId" class="form-label">Item ID</label>
-                            <input type="text" class="form-control" id="vehicleId" name="vehicleId">
+                            <input type="text" class="form-control" id="itemId" name="itemId">
                         </div>
                         <div class="mb-3">
-                            <label for="ItemName" class="form-label">Item</label>
-                            <input type="text" class="form-control" id="ItemName" name="ItemName">
+                            <label for="itemName" class="form-label">Item</label>
+                            <input type="text" class="form-control" id="itemName" name="itemName">
                         </div>
 
 
                         <button type="button" class="btn btn-primary my-2" data-bs-toggle="modal"
-                            data-bs-target="#vehicleModal">Choose Item </button>
+                            data-bs-target="#formItem">Choose Item </button>
 
                         <div class="mb-3">
                             <label for="quantity" class="form-label">Quantity</label>
@@ -60,7 +60,57 @@
             </div>
         </div>
         <div class="d-flex justify-content-center w-100">
-            <button type="button" class="btn btn-primary my-2 px-4 next">Submit</button>
+            <button class="btn btn-primary my-2 px-4 submit">Submit</button>
+        </div>
+
+
+        <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formModalLabel">Add Shipment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="myTable" class="drop-shadow-2xl w-100">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>To</th>
+                                    <th>From</th>
+                                    <th>Item No.</th>
+                                    <th>Vehicle</th>
+                                    <th>Approved</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="formItem" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formModalLabel">Add Item</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="myTableItem" class="drop-shadow-2xl w-100">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection()
@@ -69,38 +119,120 @@
     <script>
         $(document).ready(() => {
             $('#myTable').DataTable({
-                ajax: 'api/shipment-item',
+                ajax: '/api/shipment',
                 columns: [{
                         data: 'id'
                     },
                     {
-                        data: 'shipment.to.name'
+                        data: 'to.name'
                     },
                     {
-                        data: 'shipment.from.name'
+                        data: 'from.name'
+                    },
+
+                    {
+                        data: "shipment_items",
+                        render: function(data, type, row, meta) {
+                            return `${data.length}`
+                        }
                     },
                     {
-                        data: 'item.name'
+                        data: "vehicle",
+                        render: function(data, type, row, meta) {
+                            return `${data.color} | ${data.model}`
+                        }
                     },
                     {
-                        data: 'quantity'
+                        data: "isApproved",
+                        render: function(data, type, row, meta) {
+                            return data ? "APPROVED" : "NOT APPROVED"
+                        }
                     },
+
                     {
                         data: "id",
                         render: function(data, type, row, meta) {
-                            return `<button id='${data}' class="btn btn-primary edit" data-bs-toggle="modal" data-bs-target="#formEditModal">Edit</button> <button id='${data}' class="btn btn-primary destroy">Delete</button> `
+                            return `<button id='${data}' class="btn btn-primary select" data-bs-dismiss="modal">Select</button> `
                         }
                     },
                 ],
             });
 
-            $('.form').on('submit', function(event) {
+            $('#myTableItem').DataTable({
+                ajax: '/api/item',
+                columns: [{
+                        data: 'id'
+                    },
+                    {
+                        data: 'name'
+                    },
+                    {
+                        data: 'description'
+                    },
+                    {
+                        data: "id",
+                        render: function(data, type, row, meta) {
+                            return `<button id='${data}' class="btn btn-primary itemSelect" data-bs-dismiss="modal">Select</button> `
+                        }
+                    },
+                ],
+            });
+
+
+            $(document).on('click', '.itemSelect', function(event) {
+                const id = $(this).attr('id');
+
+                $.ajax({
+                    url: `/api/item/${id}`,
+                    dataType: "json",
+                    success: function(data) {
+                        $('#itemId').val(data.data[0].id);
+                        $('#itemName').val(
+                            data.data[0].name
+                        );
+
+                    },
+                    error: function(data) {
+                        var errors = data.responseJSON;
+                        console.log(errors);
+                    }
+                })
+            });
+
+
+            $(document).on('click', '.select', function(event) {
                 event.preventDefault();
+                const id = $(this).attr('id');
+
+                $.ajax({
+                    url: `/api/shipment/${id}`,
+                    dataType: "json",
+                    success: function(data) {
+                        $('#shipmentId').val(data.data[0].id);
+                        $('#to').val(`${data.data[0].to.name} | ${data.data[0].to.address}`);
+                        $('#from').val(
+                            `${data.data[0].from.name} | ${data.data[0].from.address}`);
+                        $('#vehicle').val(
+                            `${data.data[0].vehicle.color} | ${data.data[0].vehicle.model}`);
+                    },
+                    error: function(data) {
+                        var errors = data.responseJSON;
+                        console.log(errors);
+                    }
+                })
+            });
+            $(document).on('click', '.submit', function(event) {
+                event.preventDefault();
+
                 $.ajax({
                     type: "POST",
                     dataType: 'json',
-                    url: `/api/item`,
-                    data: $(this).serialize(),
+                    url: `/api/shipment-item`,
+                    data: {
+                        shipmentId: $('#shipmentId').val(),
+                        itemId: $('#itemId').val(),
+                        quantity: $('#quantity').val(),
+                    },
                     success: function(data) {
                         window.location.replace(window.location.href);
                     },
@@ -119,7 +251,8 @@
                     url: `/api/item/${$('#editId').val()}`,
                     data: $(this).serialize(),
                     success: function(data) {
-                        window.location.replace(window.location.href);
+                        // window.location.replace(window.location.href);
+                        console.log(data);
                     },
                     error: function(data) {
                         var errors = data.responseJSON;
