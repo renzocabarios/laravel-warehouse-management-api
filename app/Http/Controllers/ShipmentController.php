@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ShipmentItem;
 use Illuminate\Http\Request;
 use App\Models\Shipment;
+use App\Models\Stock;
 use Illuminate\Support\Facades\DB;
 
 class ShipmentController extends Controller
@@ -131,7 +132,7 @@ class ShipmentController extends Controller
     {
         try {
             DB::beginTransaction();
-            $data = Shipment::find($id);
+            $data = Shipment::with(["vehicle", "shipmentItems", "to", "from"])->find($id);
 
             if ($data == null) {
                 return response()->json([
@@ -139,6 +140,48 @@ class ShipmentController extends Controller
                     'status' => 'failed',
                     'message' => 'Shipment not found',
                 ]);
+            }
+
+            if (!$data->isApproved) {
+                $shimemtItems = ShipmentItem::get()->where('shipmentId', '==', $data->id);
+                $toId = $data["to"];
+                $fromId = $data["from"];
+
+                foreach ($shimemtItems as $item) {
+
+                    $tempStockTo = Stock::get()->where('branchId', '==', $toId)->where('itemId', '==', $item->itemId)->first();
+
+                    if (!$tempStockTo) {
+                        $tempStockTo = Stock::create([
+                            'itemId' => $item->itemId,
+                            'quantity' => 0,
+                            'branchId' => $toId,
+                        ]);
+                    }
+
+                    if (!$tempStockTo->quantity > $item->quantity) {
+                        return response()->json([
+                            'data' => [$tempStockTo->quantity],
+                            'status' => 'failed',
+                            'message' => 'To Branch does not have enough stock',
+                        ]);
+                    }
+
+                    $tempStockTo->quantity = $tempStockTo->quantity - $item->quantity;
+                    $tempStockTo->save();
+
+                    $tempStockFrom = Stock::get()->where('branchId', '==', $fromId)->where('itemId', '==', $item->itemId)->first();
+                    if (!$tempStockFrom) {
+                        $tempStockFrom = Stock::create([
+                            'itemId' => $item->itemId,
+                            'quantity' => 0,
+                            'branchId' => $fromId,
+                        ]);
+                    }
+
+                    $tempStockFrom->quantity = $tempStockFrom->quantity + $item->quantity;
+                    $tempStockFrom->save();
+                }
             }
 
             $data->isApproved = true;
