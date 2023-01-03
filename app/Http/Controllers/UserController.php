@@ -6,12 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
     public function index()
     {
-
         return response()->json([
             'data' => User::with(["admin", "branchOwner"])->get(),
             'status' => 'success',
@@ -21,6 +21,20 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'firstName' => 'required|string',
+            'email' => 'required|email',
+            'lastName' => 'required|string',
+            'password' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'data' => [],
+                'status' => 'failed',
+                'message' => 'The form is not valid',
+            ]);
+        }
 
         try {
             DB::beginTransaction();
@@ -55,6 +69,19 @@ class UserController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'firstName' => 'required|string',
+            'email' => 'required|email',
+            'lastName' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'data' => [],
+                'status' => 'failed',
+                'message' => 'The form is not valid',
+            ]);
+        }
 
         try {
             DB::beginTransaction();

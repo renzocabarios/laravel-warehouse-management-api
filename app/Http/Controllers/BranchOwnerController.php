@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\BranchOwner;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class BranchOwnerController extends Controller
 {
@@ -21,7 +22,20 @@ class BranchOwnerController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'firstName' => 'required|string',
+            'lastName' => 'required|string',
+            'password' => 'required|string',
+            'email' => 'required|email'
+        ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'data' => [],
+                'status' => 'failed',
+                'message' => 'The form is not valid',
+            ]);
+        }
         try {
             DB::beginTransaction();
 
@@ -61,6 +75,20 @@ class BranchOwnerController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'firstName' => 'required|string',
+            'lastName' => 'required|string',
+            'password' => 'required|string',
+            'email' => 'required|email'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'data' => [],
+                'status' => 'failed',
+                'message' => 'The form is not valid',
+            ]);
+        }
 
         try {
             DB::beginTransaction();

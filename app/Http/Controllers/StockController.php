@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Stock;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class StockController extends Controller
 {
@@ -15,12 +16,25 @@ class StockController extends Controller
             'data' => Stock::with(["item", "branch"])->get(),
             'status' => 'success',
             'message' => 'Get stock success',
-        ]);    
+        ]);
     }
 
     public function store(Request $request)
     {
 
+        $validator = Validator::make($request->all(), [
+            'branchId' => 'required|numeric',
+            'itemId' => 'required|numeric',
+            'quantity' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'data' => [],
+                'status' => 'failed',
+                'message' => 'The form is not valid',
+            ]);
+        }
         try {
             DB::beginTransaction();
 
@@ -29,7 +43,7 @@ class StockController extends Controller
                 'itemId' => $request->itemId,
                 'quantity' => $request->quantity,
             ]);
-            
+
             DB::commit();
         } catch (\Exception $e) {
 
@@ -40,22 +54,34 @@ class StockController extends Controller
                 'message' => 'Create stock failed',
             ]);
         }
-        
+
         return response()->json([
             'data' => [$data],
             'status' => 'success',
             'message' => 'Create stock success',
-        ]);    
+        ]);
     }
 
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'branchId' => 'required|numeric',
+            'itemId' => 'required|numeric',
+            'quantity' => 'required|numeric'
+        ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'data' => [],
+                'status' => 'failed',
+                'message' => 'The form is not valid',
+            ]);
+        }
         try {
             DB::beginTransaction();
-            $data = Stock::find($id);    
+            $data = Stock::find($id);
 
-            if($data == null){
+            if ($data == null) {
                 return response()->json([
                     'data' => [],
                     'status' => 'failed',
@@ -95,14 +121,14 @@ class StockController extends Controller
             'data' => [Stock::with(["item", "branch"])->find($id)],
             'status' => 'success',
             'message' => 'Get stock success',
-        ]);    
+        ]);
     }
 
     public function destroy($id)
     {
         $data = Stock::find($id);
 
-        if($data == null){
+        if ($data == null) {
             return response()->json([
                 'data' => [],
                 'status' => 'failed',
@@ -110,7 +136,7 @@ class StockController extends Controller
             ]);
         }
         $data->delete();
-        
+
         return response()->json([
             'data' => [],
             'status' => 'success',

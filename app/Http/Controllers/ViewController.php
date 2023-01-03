@@ -48,7 +48,7 @@ class ViewController extends Controller
     {
         return view('branchEdit');
     }
-    
+
     public function vehicle()
     {
         return view('vehicle');
@@ -63,7 +63,7 @@ class ViewController extends Controller
     {
         return view('shipment');
     }
-    
+
     public function shipmentCreate()
     {
         return view('shipmentCreate');
@@ -83,5 +83,5 @@ class ViewController extends Controller
     {
         return view('shipmentItemCreate');
     }
-    
+
 }

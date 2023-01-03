@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Vehicle;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class VehicleController extends Controller
 {
@@ -14,11 +15,24 @@ class VehicleController extends Controller
             'data' => Vehicle::with([])->get(),
             'status' => 'success',
             'message' => 'Get vehicle success',
-        ]);    
+        ]);
     }
 
     public function store(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'color' => 'required|string',
+            'model' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'data' => [],
+                'status' => 'failed',
+                'message' => 'The form is not valid',
+            ]);
+        }
         try {
             DB::beginTransaction();
 
@@ -38,22 +52,35 @@ class VehicleController extends Controller
                 'message' => 'Create vehicle failed',
             ]);
         }
-        
+
         return response()->json([
             'data' => [$data],
             'status' => 'success',
             'message' => 'Create vehicle success',
-        ]);    
+        ]);
     }
 
 
     public function update(Request $request, $id)
     {
+
+        $validator = Validator::make($request->all(), [
+            'color' => 'required|string',
+            'model' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'data' => [],
+                'status' => 'failed',
+                'message' => 'The form is not valid',
+            ]);
+        }
         try {
             DB::beginTransaction();
-            $data = Vehicle::find($id);    
+            $data = Vehicle::find($id);
 
-            if($data == null){
+            if ($data == null) {
                 return response()->json([
                     'data' => [],
                     'status' => 'failed',
@@ -62,7 +89,7 @@ class VehicleController extends Controller
             }
 
             $data->color = $request->get('color');
-            $data->model = $request->get('model'); 
+            $data->model = $request->get('model');
 
             $data->save();
             DB::commit();
@@ -93,14 +120,14 @@ class VehicleController extends Controller
             'data' => [Vehicle::with([])->find($id)],
             'status' => 'success',
             'message' => 'Get vehicle success',
-        ]);    
+        ]);
     }
 
     public function destroy($id)
     {
         $data = Vehicle::find($id);
 
-        if($data == null){
+        if ($data == null) {
             return response()->json([
                 'data' => [],
                 'status' => 'failed',
@@ -108,7 +135,7 @@ class VehicleController extends Controller
             ]);
         }
         $data->delete();
-        
+
         return response()->json([
             'data' => [],
             'status' => 'success',

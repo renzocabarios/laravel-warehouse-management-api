@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ItemController extends Controller
 {
@@ -19,6 +20,19 @@ class ItemController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'description' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'data' => [],
+                'status' => 'failed',
+                'message' => 'The form is not valid',
+            ]);
+        }
+
         try {
             DB::beginTransaction();
 
@@ -49,6 +63,19 @@ class ItemController extends Controller
 
     public function update(Request $request, $id)
     {
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'description' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'data' => [],
+                'status' => 'failed',
+                'message' => 'The form is not valid',
+            ]);
+        }
 
         try {
             DB::beginTransaction();

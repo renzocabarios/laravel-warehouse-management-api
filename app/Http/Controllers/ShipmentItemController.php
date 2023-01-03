@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ShipmentItem;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ShipmentItemController extends Controller
 {
     public function index()
     {
         return response()->json([
-            'data' => ShipmentItem::with(["shipment.to", "shipment.from","item"])->get(),
+            'data' => ShipmentItem::with(["shipment.to", "shipment.from", "item"])->get(),
             'status' => 'success',
             'message' => 'Get shipment item success',
         ]);
@@ -19,6 +20,21 @@ class ShipmentItemController extends Controller
 
     public function store(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'itemId' => 'required|numeric',
+            'quantity' => 'required|numeric',
+            'shipmentId' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'data' => [],
+                'status' => 'failed',
+                'message' => 'The form is not valid',
+            ]);
+        }
+
         try {
             DB::beginTransaction();
 
@@ -50,6 +66,19 @@ class ShipmentItemController extends Controller
 
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'itemId' => 'required|numeric',
+            'quantity' => 'required|numeric',
+            'shipmentId' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'data' => [],
+                'status' => 'failed',
+                'message' => 'The form is not valid',
+            ]);
+        }
 
         try {
             DB::beginTransaction();
@@ -63,7 +92,7 @@ class ShipmentItemController extends Controller
                 ]);
             }
 
-            
+
             $data->itemId = $request->get('itemId');
             $data->quantity = $request->get('quantity');
             $data->shipmentId = $request->get('shipmentId');
@@ -94,7 +123,7 @@ class ShipmentItemController extends Controller
     public function show($id)
     {
         return response()->json([
-            'data' => [ShipmentItem::with(["shipment.to", "shipment.from","item"])->find($id)],
+            'data' => [ShipmentItem::with(["shipment.to", "shipment.from", "item"])->find($id)],
             'status' => 'success',
             'message' => 'Get shipment item success',
         ]);

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Shipment;
 use App\Models\Stock;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class ShipmentController extends Controller
 {
@@ -21,6 +22,22 @@ class ShipmentController extends Controller
 
     public function store(Request $request)
     {
+
+        $validator = Validator::make($request->all(), [
+            'vehicleId' => 'required|numeric',
+            'to' => 'required|numeric',
+            'items' => 'required|array',
+            'from' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'data' => [],
+                'status' => 'failed',
+                'message' => 'The form is not valid',
+            ]);
+        }
+
         try {
             DB::beginTransaction();
 
