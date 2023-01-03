@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="d-flex p-2 justify-content-center">
-        <form>
+        <form class="form">
             <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
                 <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp">
@@ -21,3 +21,34 @@
         </form>
     </div>
 @endsection()
+
+
+@push('scripts')
+    <script>
+        $(function() {
+            $(document).ready(function() {
+                $('.form').on('submit', function(event) {
+                    event.preventDefault();
+                    $.ajax({
+                        type: "POST",
+                        dataType: 'json',
+                        url: `/api/auth`,
+                        data: $(this).serialize(),
+                        success: function(data) {
+                            if (data.status == "success") {
+                                localStorage.setItem("token", data.token);
+                                localStorage.setItem("user", data.data[0]);
+                                window.location.replace(
+                                    `${window.location.origin}/item`)
+                            }
+                        },
+                        error: function(data) {
+                            var errors = data.responseJSON;
+                            console.log(errors);
+                        }
+                    });
+                });
+            })
+        });
+    </script>
+@endpush

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -27,7 +27,7 @@ class AuthController extends Controller
         $token = auth()->user()->createToken('MyApp')->accessToken;
 
         return response()->json([
-            'data' => [],
+            'data' => [User::with(["admin", "branchOwner"])->find(auth()->user()["id"])],
             'status' => 'success',
             'message' => 'Authentication success',
             'token' => $token,

@@ -26,18 +26,18 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware(['auth:api'])->group(function () {
+    Route::apiResource('/item', ItemController::class);
+    Route::apiResource('/branch', BranchController::class);
+    Route::apiResource('/stock', StockController::class);
+    Route::apiResource('/user', UserController::class);
+    Route::apiResource('/vehicle', VehicleController::class);
+    Route::apiResource('/shipment', ShipmentController::class);
+    Route::apiResource('/shipment-item', ShipmentItemController::class);
+    Route::apiResource('/branch-owner', BranchOwnerController::class, ['except' => ['store']]);
+    Route::apiResource('/admin', AdminController::class);
+    Route::patch('/shipment/{id}/approve', [ShipmentController::class, 'approve']);
+});
 
-Route::apiResource('/item', ItemController::class);
-Route::apiResource('/branch', BranchController::class);
-Route::apiResource('/stock', StockController::class);
-Route::apiResource('/user', UserController::class);
-Route::apiResource('/vehicle', VehicleController::class);
-Route::apiResource('/shipment', ShipmentController::class);
-Route::apiResource('/shipment-item', ShipmentItemController::class);
-Route::apiResource('/branch-owner', BranchOwnerController::class);
-Route::apiResource('/admin', AdminController::class);
-Route::patch('/shipment/{id}/approve', [ShipmentController::class, 'approve']);
 Route::post('/auth', [AuthController::class, "login"]);
+Route::post('/branch-owner', [BranchOwnerController::class, "store"]);
