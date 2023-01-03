@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    </script>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     @vite('resources/css/app.css')
 </head>
@@ -24,35 +23,7 @@
                 </span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/item">Items</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/user">Users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin">Admins</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/branch-owner">Branch Owners</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/branch">Branches</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/vehicle">Vehicles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/stock">Stocks</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/shipment">Shipment</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/shipment-item">Shipment Item</a>
-                    </li>
-                </ul>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 links"></ul>
                 <form class="d-flex" role="search">
                     <a class="btn btn-outline-success">Register</a>
                 </form>
@@ -81,6 +52,70 @@
             beforeSend: function(xhr, setting) {
                 xhr.setRequestHeader('Authorization', `Bearer ${localStorage.getItem("token")}`);
             }
+        });
+
+        $(function() {
+            $(document).ready(function() {
+                $('.links').empty();
+
+                console.log(JSON.parse(localStorage.getItem('user')));
+
+                if (localStorage.getItem('token') != null) {
+                    if (JSON.parse(localStorage.getItem('user')).type == "ADMIN") {
+                        $('.links').append(`
+                            <li class="nav-item">
+                                <a class="nav-link" href="/item">Items</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/user">Users</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">Admins</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/branch-owner">Branch Owners</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/branch">Branches</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/vehicle">Vehicles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/stock">Stocks</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/shipment">Shipment</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/shipment-item">Shipment Item</a>
+                            </li>
+                        `);
+                    }
+
+                    if (JSON.parse(localStorage.getItem('user')).type == "BRANCHOWNER") {
+                        $('.links').append(`
+                            <li class="nav-item">
+                                <a class="nav-link" href="/item">Items</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/branch">Branches</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/stock">Stocks</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/shipment">Shipment</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/shipment-item">Shipment Item</a>
+                            </li>
+                        `);
+                    }
+                }
+
+
+            })
         });
     </script>
     @stack('scripts')

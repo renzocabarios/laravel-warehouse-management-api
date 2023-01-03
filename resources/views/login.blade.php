@@ -37,7 +37,8 @@
                         success: function(data) {
                             if (data.status == "success") {
                                 localStorage.setItem("token", data.token);
-                                localStorage.setItem("user", data.data[0]);
+                                localStorage.setItem("user", JSON.stringify(data.data[
+                                    0]));
                                 window.location.replace(
                                     `${window.location.origin}/item`)
                             }
