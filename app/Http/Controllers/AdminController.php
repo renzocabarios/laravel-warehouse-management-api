@@ -31,6 +31,8 @@ class AdminController extends Controller
                 'type' => "ADMIN",
             ]);
 
+            $user->createToken('MyApp')->accessToken;
+
             $data = Admin::create([
                 'userId' => $user->id,
             ]);

@@ -33,6 +33,8 @@ class BranchOwnerController extends Controller
                 'type' => "BRANCHOWNER",
             ]);
 
+            $user->createToken('MyApp')->accessToken;
+
             $data = BranchOwner::create([
                 'userId' => $user->id,
             ]);

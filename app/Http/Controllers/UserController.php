@@ -16,7 +16,7 @@ class UserController extends Controller
             'data' => User::with(["admin", "branchOwner"])->get(),
             'status' => 'success',
             'message' => 'Get user success',
-        ]); 
+        ]);
     }
 
     public function store(Request $request)
@@ -30,6 +30,8 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
+
+            $data->createToken('MyApp')->accessToken;
 
             DB::commit();
         } catch (\Exception $e) {

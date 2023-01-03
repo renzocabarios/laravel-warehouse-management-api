@@ -11,6 +11,7 @@ use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\ShipmentItemController;
 use App\Http\Controllers\BranchOwnerController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
 
 
 
@@ -38,4 +39,5 @@ Route::apiResource('/shipment', ShipmentController::class);
 Route::apiResource('/shipment-item', ShipmentItemController::class);
 Route::apiResource('/branch-owner', BranchOwnerController::class);
 Route::apiResource('/admin', AdminController::class);
-Route::patch('/shipment/{id}/approve', [ShipmentController::class,'approve']);
+Route::patch('/shipment/{id}/approve', [ShipmentController::class, 'approve']);
+Route::post('/auth', [AuthController::class, "login"]);
