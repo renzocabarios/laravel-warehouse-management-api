@@ -35,6 +35,7 @@
                                 <label for="description" class="form-label">Item Description</label>
                                 <input type="text" class="form-control" id="description" name="description">
                             </div>
+                            <div class="text-danger error mb-3" role="alert"> </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
@@ -63,6 +64,7 @@
                                 <label for="editDescription" class="form-label">Item Description</label>
                                 <input type="text" class="form-control" id="editDescription" name="description">
                             </div>
+                            <div class="text-danger error mb-3" role="alert"> </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                     </div>
@@ -75,6 +77,9 @@
 @push('scripts')
     <script>
         $(document).ready(() => {
+
+            if (localStorage.getItem('token') == null) window.location.replace(`${window.location.origin}/login`)
+
             $('#myTable').DataTable({
                 ajax: 'api/item',
                 columns: [{
@@ -98,19 +103,28 @@
 
             $('.form').on('submit', function(event) {
                 event.preventDefault();
+
                 $.ajax({
                     type: "POST",
                     dataType: 'json',
                     url: `/api/item`,
                     data: $(this).serialize(),
                     success: function(data) {
-                        window.location.replace(window.location.href);
+                        if (data.status == "failed") {
+                            $(".error").empty();
+                            $(".error").append(data.message);
+                        } else {
+                            window.location.replace(window.location.href);
+
+                        }
                     },
                     error: function(data) {
                         var errors = data.responseJSON;
                         console.log(errors);
                     }
                 });
+
+
             });
 
             $('.editForm').on('submit', function(event) {
@@ -121,13 +135,22 @@
                     url: `/api/item/${$('#editId').val()}`,
                     data: $(this).serialize(),
                     success: function(data) {
-                        window.location.replace(window.location.href);
+
+                        if (data.status == "failed") {
+                            $(".error").empty();
+                            $(".error").append(data.message);
+                        } else {
+                            window.location.replace(window.location.href);
+
+                        }
+
                     },
                     error: function(data) {
                         var errors = data.responseJSON;
                         console.log(errors);
                     }
                 });
+
             });
 
             $(document).on('click', '.edit', function(event) {
@@ -137,9 +160,9 @@
                     url: `/api/item/${id}`,
                     dataType: "json",
                     success: function(data) {
-                        $('#editId').val();
-                        $('#editName').val();
-                        $('#editDescription').val();
+                        $('#editId').val(data.data[0].id);
+                        $('#editName').val(data.data[0].name);
+                        $('#editDescription').val(data.data[0].description);
                     },
                     error: function(data) {
                         var errors = data.responseJSON;

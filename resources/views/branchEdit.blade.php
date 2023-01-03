@@ -72,6 +72,7 @@
 @push('scripts')
     <script>
         $(document).ready(() => {
+            if (localStorage.getItem('token') == null) window.location.replace(`${window.location.origin}/login`)
 
             var url = window.location.pathname;
             var id = url.substring(url.lastIndexOf('/') + 1);

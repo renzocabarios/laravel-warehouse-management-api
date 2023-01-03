@@ -97,6 +97,9 @@
 @push('scripts')
     <script>
         $(document).ready(() => {
+
+            if (localStorage.getItem('token') == null) window.location.replace(`${window.location.origin}/login`)
+
             $('#myTable').DataTable({
                 ajax: 'api/admin',
                 columns: [{

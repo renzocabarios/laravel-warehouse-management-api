@@ -159,6 +159,9 @@
     <script>
         $(document).ready(() => {
 
+            if (localStorage.getItem('token') == null) window.location.replace(`${window.location.origin}/login`)
+
+
             $('#myTableToBranch').DataTable({
                 ajax: '/api/branch',
                 columns: [{
