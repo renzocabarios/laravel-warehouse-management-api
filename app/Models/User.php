@@ -25,7 +25,7 @@ class User extends Authenticatable
 
     protected $attributes = [
         'image' => 'test',
-        'type' => 'Admin'
+        'type' => 'BRANCHOWNER'
     ];
 
     protected $hidden = [
