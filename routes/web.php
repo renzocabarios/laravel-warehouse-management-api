@@ -98,3 +98,8 @@ Route::get(
     '/shipment-item/create',
     [ViewController::class, 'shipmentItemCreate']
 )->name('shipmentItemCreate');
+
+Route::get(
+    '/dashboard',
+    [ViewController::class, 'dashboard']
+)->name('dashboard');

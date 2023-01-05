@@ -83,5 +83,9 @@ class ViewController extends Controller
     {
         return view('shipmentItemCreate');
     }
+        public function dashboard()
+    {
+        return view('dashboard');
+    }
 
 }

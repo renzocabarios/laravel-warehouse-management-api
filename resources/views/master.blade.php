@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     @vite('resources/css/app.css')
 </head>
@@ -57,12 +60,12 @@
         $(function() {
             $(document).ready(function() {
                 $('.links').empty();
-
-                console.log(JSON.parse(localStorage.getItem('user')));
-
                 if (localStorage.getItem('token') != null) {
                     if (JSON.parse(localStorage.getItem('user')).type == "ADMIN") {
                         $('.links').append(`
+                            <li class="nav-item">
+                                <a class="nav-link" href="/dashboard">Dashboard</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/item">Items</a>
                             </li>
@@ -95,6 +98,9 @@
 
                     if (JSON.parse(localStorage.getItem('user')).type == "BRANCHOWNER") {
                         $('.links').append(`
+                            <li class="nav-item">
+                                <a class="nav-link" href="/dashboard">Dashboard</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/item">Items</a>
                             </li>
